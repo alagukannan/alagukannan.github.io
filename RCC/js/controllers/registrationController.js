@@ -27,7 +27,8 @@ app.controller("registrationController", function($scope, $http, $location, $rou
         var postParams = angular.copy($scope.participant);
         postParams.token = $scope.params.token;
         postParams.fullname = undefined;
-
+        if(!angular.isNumber(postParams.guests))
+            postParams.guests = 0;
         $http.post(RCC_API_URI, postParams).then(function(response) {
             //update the participant records
             var _participants = $filter('filter')($scope.event.participants, {
