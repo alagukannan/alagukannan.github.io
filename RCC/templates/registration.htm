@@ -91,26 +91,20 @@
     </div>
 
     <!--- Display Players Table --->
-    <div class="table-responsive" id="playerInfo">
-        <p class="text-right"><a href="" data-ng-click="gotoAnchor('top')">Top</a></p>
-        <table class="table table-hover table-bordered">
-            <thead>
-                <tr>
-                    <th>Player Name</th>
-                    <th>Response</th>
-                    <th>Guests</th>
-                    <th>Comment</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr ng-repeat="participant in event.participants | orderBy : '-_status'" ng-class="{'success' : participant._status == 3, 'info' : participant._status == 2, 'warning' : participant._status == 1, 'danger': participant._status == 0}">
-                    <td class="text-capitalize">{{participant.fullname}}</td>
-                    <td>{{participant.status ? participant.status : 'No Response'}}</td>
-                    <td>{{participant.guests}}</td>
-                    <td>{{participant.comments}}</td>
-                </tr>
-            </tbody>
-        </table>
-        <p class="text-right"><a href="" data-ng-click="gotoAnchor('top')">Top</a></p>
+    <div>
+        <span class="label label-success">Yes</span>
+        <span class="label label-info">No</span>
+        <span class="label label-warning">May be</span>
+        <span class="label label-danger">No Response</span>
     </div>
+    <div>
+        <ul class="list-group" id="playerInfo">
+            <li data-ng-repeat="participant in event.participants | orderBy : '-_status'" data-ng-class="[{'list-group-item-success' : participant._status == 3, 'list-group-item-info' : participant._status == 2, 'list-group-item-warning' : participant._status == 1, 'list-group-item-danger': participant._status == 0}, 'list-group-item','text-capitalize']"
+                class="list-group-item list-group-item-success">
+                <span data-ng-show="participant.guests > 0" class="badge">+{{participant.guests}}</span> {{participant.fullname}}
+                <p data-ng-show="participant.comments.length > 0" class="list-group-item-text">{{participant.comments}}</p>
+            </li>
+        </ul>
+    </div>
+
 </div>
