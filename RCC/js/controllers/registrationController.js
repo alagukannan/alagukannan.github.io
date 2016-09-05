@@ -5,7 +5,8 @@ app.controller("registrationController", function($scope, $http, $location, $rou
     $scope.playerTabs = [{
         heading: 'Yes',
         statusFilterValue: 3,
-        class: 'list-group-item-success'
+        class: 'list-group-item-success',
+        expression : '{{ (event.participants | filter: {_status : 3}).length}}'
     }, {
         heading: 'May Be',
         statusFilterValue: 2,
