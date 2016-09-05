@@ -7,7 +7,14 @@
 <div data-ng-show="isEventDataAvailable" id="top">
     <div class="panel panel-primary">
         <div class="panel-heading">
-            <h3 class="panel-title">Event {{ event.name }} on {{ event.starttime | date: 'short'}} at {{ event.ground.name }}</h3>
+            <h3 class="panel-title">Event {{ event.name }} on {{ event.starttime | date: 'short'}} at {{ event.ground.name }}
+                
+                <span class="label label-success pull-right">Invited <span class="badge">{{event.participants.length}}</span></span>               
+                 
+            </h3>
+
+
+
         </div>
 
         <div class="panel-body">
@@ -23,13 +30,7 @@
             </div>
 
             <p>{{event.description}}</p>
-            <p><strong>{{event.participants.length}}</strong> players were invited and here are the responses so far. More Info can be found <a href="" data-ng-click="gotoAnchor('playerInfo')">below</a></p>
-            <ul>
-                <li>Yes : {{ (event.participants | filter: {status : 'Yes'}).length}}</li>
-                <li>No : {{ (event.participants | filter: {status : 'No'}).length}}</li>
-                <li>May be : {{ (event.participants | filter: {status : 'Maybe'}).length}}</li>
-                <li>Guests : {{getGuestCounts()}}</li>
-            </ul>
+
 
             <div class="alert alert-success" data-ng-show="participant.status">
                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
@@ -91,11 +92,16 @@
     </div>
     <!--- Display Players Table --->
     <div>
-        <uib-tabset>
-
-            <uib-tab data-ng-repeat="tab in playerTabs" heading="{{tab.heading}}" index="$index">
+        
+        
+        <uib-tabset active="Yes">          
+            <uib-tab data-ng-repeat="ptab in playerTabs" heading="{{ptab.heading}}" data-ng-class="{'active' : ptab.statusFilterValue === 3}">
+                <uib-tab-heading>
+                    {{ptab.heading}}
+                    <span class="badge">{{ (event.participants | filter: {_status : ptab.statusFilterValue}).length}}</span>
+                </uib-tab-heading>
                 <ul class="list-group" id="playerInfo">
-                    <li data-ng-repeat="participant in event.participants | filter : {_status : tab.statusFilterValue} : true" data-ng-class="[tab.class, 'list-group-item','text-capitalize']">
+                    <li data-ng-repeat="participant in event.participants | filter : {_status : ptab.statusFilterValue} : true" data-ng-class="[ptab.class, 'list-group-item','text-capitalize']">
                         <span data-ng-show="participant.guests > 0" class="badge">+{{participant.guests}}</span> {{participant.fullname}}
                         <p data-ng-show="participant.comments.length > 0" class="list-group-item-text"><small>{{participant.comments}}</small></p>
                     </li>
